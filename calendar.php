@@ -31,21 +31,28 @@
   </form>
 
 
+
   <h1>Calendar for
-    <?php echo Date::MONTH ?>
+
+    <?php     $monthName = date('F', mktime(0, 0, 0, Date::monthNumber, 10));
+        echo $monthName;?>
     <?php echo Date::YEAR ?> (Myanmar)
   </h1>
 
+
   <?php
+
+    $monthName = date('F', mktime(0, 0, 0, Date::monthNumber, 10));
     class Date
     {
-        const MONTH = 11;
+        const monthNumber  = 5;
+        // const MONTH = $monthName;
         const YEAR = 2024;
     }
 
     $time = time();
     $numDay = date('d', $time);
-    $numMonth = Date::MONTH;
+    $numMonth = Date::monthNumber;
     $strMonth = date('F', $time);
     $numYear = Date::YEAR;
     $firstDay = mktime(0, 0, 0, $numMonth, 1, $numYear);
