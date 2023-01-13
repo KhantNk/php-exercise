@@ -1,0 +1,30 @@
+table {
+  border: 2px solid #0077b3;
+  border-collapse: collapse;
+  background-color: #cce6ff;
+}
+
+table caption{
+  font-size: 20px;
+  font-weight: 700;
+}
+
+th {
+  font-size: 15px;
+  border: 1px solid #cce6ff;
+  padding: 5px 20px;
+  color: white;
+  background-color: #0077b3;
+}
+
+td {
+  border: 1px solid #fff;
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
