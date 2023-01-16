@@ -1,57 +1,70 @@
-< !DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="calendar.css">
-        <title>Document</title>
-    </head>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="12-mon-cal.css">
+  <title>Document</title>
+</head>
 
-    <body>
-        <h1>Calendar for January 2023 (Myanmar)</h1>
-        
-        echo "<table border=1>";
+<body>
+  <h1>
+    2023
+  </h1>
+  <div class="container">
+    <?php
+        $year = 2023;
+        for ($m = 1; $m <= 12; $m++) {
+            $month = date($m);
+            $dateObject = DateTime::createFromFormat('!m', $m);
+            $monthName = $dateObject->format('F');
+
+            $d = 1;
+            $no_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+            $j = date('w', mktime(0, 0, 0, $month, 1, $year));
+            $j = $j - 1;
+            if ($j < 0) {
+                $j = 0;
+            }
+
+            $adj = str_repeat("<td>&nbsp;</td>", $j);
+            $blank_at_end = 42 - $j - $no_of_days;
+            if ($blank_at_end >= 7) {
+                $blank_at_end = $blank_at_end - 7;
+            }
+            $adj2 = str_repeat("<td>&nbsp;</td>", $blank_at_end);
+
+            echo "<td><table><th colspan=7> $monthName</th>";
+
             echo "<tr>
-                <th colspan=7> $title $year </th>
+            <td>S</td>
+            <td>M</td>
+            <td>T</td>
+            <td>W</td>
+            <td>T</td>
+            <td>F</td>
+            <td>S</td>
             </tr>";
 
-            echo "<tr>
-                <td width=42>S</td>
-                <td width=42>M</td>
-                <td width=42>T</td>
-                <td width=42>W</td>
-                <td width=42>T</td>
-                <td width=42>F</td>
-                <td width=42>S</td>
-            </tr>";
-
-            $day_count = 1;
-
-            $blank_cnt = $blankdays;
-            echo "<tr>";
-
-                while ($blank_cnt > 0) {
-                echo "<td></td>";
-                $blank_cnt--;
-                $day_count++;
+            for ($i = 1; $i <= $no_of_days; $i++) {
+                echo $adj . "<td>$i</td>";
+                $adj = '';
+                $j++;
+                if ($j == 7) {
+                    echo "</tr><tr>";
+                    $j = 0;
                 }
-
-                $day_num = 1;
-                $cnt = $blankdays;
-
-                while ($day_num <= $days_in_month) { if ($cnt==7) { $cnt=0; }; while ($cnt < 7) { echo " <td>$day_num</td> " ; $day_num++; $day_count++; $cnt++; if ($day_num> $days_in_month) {
-                    break;
-                    }
-
-                    if ($cnt == 7) {
-                    echo "</tr>";
-            }
-            }
             }
 
-            while ($cnt > 1 && $cnt <= 6) { echo "<td></td>" ; $cnt++; } echo "</tr></table>" ; } ?>
-    </body>
+            echo "</tr></table></td>";
+        }
+        echo "</table>";
+        ?>
+  </div>
 
-    </html>
+</body>
+
+</html>
