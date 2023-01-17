@@ -1,34 +1,8 @@
 <?php
-class animal {
-  public $name;
-  function set_name($name) 
-  {
-    $this->name = $name;
-  }
-}
-$animal = new animal();
-$animal->set_name("dog");
 
-echo $animal->name;
+include 'Dog.php';
 
-class dog
-{
-    public $name;
-    function foo( ):void
-    {
-      return;
-    }
-}
+$animal = new Dog();
+$name = $animal-> ppp();
 
-$dog = new dog();
-
-class cat
-{
-    public $name;
-    function set_name($name)
-    {
-        $this->name = $name;
-    }
-}
-
-$cat = new cat();
+echo $name;
