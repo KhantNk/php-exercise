@@ -13,7 +13,8 @@
   <form action="calendar.php" method="get">
     <label for="month">Month</label>
     <select name="month" id="month">
-      <option value="1" selected>January</option>
+      <option value="">Choose a month</option>
+      <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
       <option value="4">April</option>
@@ -28,7 +29,8 @@
     </select>
     <label for="year">Year</label>
     <select name="year" id="year">
-      <option value="2022" selected>2022</option>
+      <option value="">Choose a year</option>
+      <option value="2022">2022</option>
       <option value="2023">2023</option>
       <option value="2024">2024</option>
       <option value="2025">2025</option>
@@ -38,32 +40,26 @@
     <input type="submit" value="Submit">
   </form>
   <?php
-
-  if (isset($_GET['month'])) {
-    $GLOBALS['month'] = $_GET['month'];
-    $GLOBALS['month'] = $_GET['month'];
-  }
   
-  if (isset($_GET['year'])) {
-    $GLOBALS['year'] = $_GET['year'];
-    $GLOBALS['year'] = $_GET['year'];
-  }
-  
-  if (isset($month) || isset($year)) {
+  if (isset($_GET['month']) && isset($_GET['year'])) {
     $month = $_GET['month'];
     $year = $_GET['year'];
-
-    showmonth($month, $year);
   }
 
+  if (isset($month) || isset($year)) {
+    if
+    ($month >= 1 && $month <= 12){
+      showmonth($month, $year);
+    }
+  }
 
   function showmonth($month, $year)
   {
-    $first_day = mktime(0, 0, 0, $month, 1, $year);
-    $title = date('F', $first_day);
-    $day_of_week = date('D', $first_day);
+    $firstDay = mktime(0, 0, 0, $month, 1, $year);
+    $title = date('F', $firstDay);
+    $weekDays = date('D', $firstDay);
 
-    switch ($day_of_week) {
+    switch ($weekDays) {
       case "Sun":
         $blankdays = 0;
         break;
@@ -87,47 +83,47 @@
         break;
     }
 
-    $days_in_month = cal_days_in_month(0, $month, $year);
+    $monthDay = cal_days_in_month(0, $month, $year);
 
     echo "<table border=1 width=294>";
     echo "<tr>
       <th colspan=7> $title $year </th>
     </tr>";
 
-    $mydays = array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+    $weekDays = array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
-    foreach ($mydays as $day) {
+    foreach ($weekDays as $day) {
       if (date('D') === 'Sun') {
-        echo '<td class="active">Mon</td>';
+        echo '<td>Mon</td>';
       } else {
         echo '<td>' . $day . '</td>';
       }
     }
 
-    $day_count = 1;
+    $dayCount = 1;
 
-    $blank_cnt = $blankdays;
+    $blankCnt = $blankdays;
     echo "<tr>";
 
-    while ($blank_cnt > 0) {
+    while ($blankCnt > 0) {
       echo "<td></td>";
-      $blank_cnt--;
-      $day_count++;
+      $blankCnt--;
+      $dayCount++;
     }
 
-    $day_num = 1;
+    $dayNum = 1;
     $cnt = $blankdays;
 
-    while ($day_num <= $days_in_month) {
+    while ($dayNum <= $monthDay) {
       if ($cnt == 7) {
         $cnt = 0;
       };
       while ($cnt < 7) {
-        echo " <td>$day_num</td> ";
-        $day_num++;
-        $day_count++;
+        echo " <td>$dayNum</td> ";
+        $dayNum++;
+        $dayCount++;
         $cnt++;
-        if ($day_num > $days_in_month) {
+        if ($dayNum > $monthDay) {
           break;
         }
         if ($cnt == 7) {

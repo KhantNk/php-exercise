@@ -20,26 +20,23 @@
       $month = date($m);
       $dateObject = DateTime::createFromFormat('!m', $m);
       $monthName = $dateObject->format('F');
-      $d = 1;
-      
-      $no_of_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-      $j = date('w', mktime(0, 0, 0, $month, 1, $year));
-      $j = $j - 1;
-      if ($j < 0) {
-        $j = 0;
+      $numberDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+      $d = date('w', mktime(0, 0, 0, $month, 1, $year));
+      $d = $d - 1;
+      if ($d < 0) {
+        $d = 0;
       }
 
-      $adj = str_repeat("<td>&nbsp;</td>", $j);
-      $blank_at_end = 42 - $j - $no_of_days;
-      if ($blank_at_end >= 7) {
-        $blank_at_end = $blank_at_end - 7;
+      $adj = str_repeat("<td>&nbsp;</td>", $d);
+      $blank= 42 - $d - $numberDays;
+      if ($blank>= 7) {
+        $blank= $blank- 7;
       }
 
       $link = "calendar.php?month=$m&year=2022";
       echo "<td><a href='$link' target='_blank'><table>
       <th colspan=7>$monthName</th>";
-
+      
       echo "<tr>
         <td>S</td>
         <td>M</td>
@@ -50,8 +47,18 @@
         <td>S</td>
       </tr>";
 
-      for ($i = 1; $i <= $no_of_days; $i++) { echo $adj . "<td>$i</td>" ; $adj='' ; $j++; if ($j==7) { echo "</tr><tr>"
-        ; $j=0; } } echo "</tr></table></td>" ; } echo "</table>" ; ?>
+      for ($i = 1; $i <= $numberDays; $i++) {
+        echo $adj . "<td>$i</td>";
+        $adj = '';
+        $d++;
+        if ($d == 7) {
+          echo "</tr><tr>";
+          $d = 0;
+        }
+      }
+      echo "</tr></table></td>";
+    }
+    echo "</table>"; ?>
   </div>
 
 </body>
