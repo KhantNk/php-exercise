@@ -13,7 +13,7 @@
   <form action="calendar.php" method="get">
     <label for="month">Month</label>
     <select name="month" id="month">
-      <option value="1">January</option>
+      <option value="1" selected>January</option>
       <option value="2">February</option>
       <option value="3">March</option>
       <option value="4">April</option>
@@ -26,8 +26,9 @@
       <option value="11">November</option>
       <option value="12">December</option>
     </select>
-    <label for="year">year</label>
+    <label for="year">Year</label>
     <select name="year" id="year">
+      <option value="2022" selected>2022</option>
       <option value="2023">2023</option>
       <option value="2024">2024</option>
       <option value="2025">2025</option>
@@ -47,15 +48,17 @@
     $GLOBALS['year'] = $_GET['year'];
     $GLOBALS['year'] = $_GET['year'];
   }
+  
+  if (isset($month) || isset($year)) {
+    $month = $_GET['month'];
+    $year = $_GET['year'];
 
-  $month = $_GET['month'];
-  $year = $_GET['year'];
+    showmonth($month, $year);
+  }
 
-  showmonth($month, $year);
 
   function showmonth($month, $year)
   {
-
     $first_day = mktime(0, 0, 0, $month, 1, $year);
     $title = date('F', $first_day);
     $day_of_week = date('D', $first_day);
@@ -91,16 +94,15 @@
       <th colspan=7> $title $year </th>
     </tr>";
 
-    echo "<tr>
-      <!-- table header row  -->
-      <td width=42>S</td>
-      <td width=42>M</td>
-      <td width=42>T</td>
-      <td width=42>W</td>
-      <td width=42>T</td>
-      <td width=42>F</td>
-      <td width=42>S</td>
-    </tr>";
+    $mydays = array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+
+    foreach ($mydays as $day) {
+      if (date('D') === 'Sun') {
+        echo '<td class="active">Mon</td>';
+      } else {
+        echo '<td>' . $day . '</td>';
+      }
+    }
 
     $day_count = 1;
 
